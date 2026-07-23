@@ -1,0 +1,95 @@
+{
+  "contractName": "ReturnedExpendableProperty",
+  "note": "ABI for the deployed contract. After deploying via Remix, confirm this matches the compiled ABI. Set the deployed address in VITE_CONTRACT_ADDRESS.",
+  "abi": [
+    { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": false, "internalType": "string", "name": "receiptNumber", "type": "string" },
+        { "indexed": false, "internalType": "bytes32", "name": "sha256Hash", "type": "bytes32" },
+        { "indexed": true, "internalType": "address", "name": "sender", "type": "address" },
+        { "indexed": false, "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+      ],
+      "name": "ReceiptStored",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "submitter", "type": "address" }
+      ],
+      "name": "SubmitterAuthorized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "address", "name": "submitter", "type": "address" }
+      ],
+      "name": "SubmitterRevoked",
+      "type": "event"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "submitter", "type": "address" }],
+      "name": "addAuthorizedSubmitter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "name": "authorizedSubmitters",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "string", "name": "receiptNumber", "type": "string" }],
+      "name": "getReceipt",
+      "outputs": [
+        { "internalType": "string", "name": "receiptNumberOut", "type": "string" },
+        { "internalType": "bytes32", "name": "sha256Hash", "type": "bytes32" },
+        { "internalType": "uint256", "name": "timestamp", "type": "uint256" },
+        { "internalType": "address", "name": "sender", "type": "address" },
+        { "internalType": "bool", "name": "exists", "type": "bool" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [{ "internalType": "address", "name": "submitter", "type": "address" }],
+      "name": "removeAuthorizedSubmitter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "string", "name": "receiptNumber", "type": "string" },
+        { "internalType": "bytes32", "name": "sha256Hash", "type": "bytes32" }
+      ],
+      "name": "storeReceipt",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "string", "name": "receiptNumber", "type": "string" },
+        { "internalType": "bytes32", "name": "sha256Hash", "type": "bytes32" }
+      ],
+      "name": "verifyReceipt",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

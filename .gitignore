@@ -1,0 +1,39 @@
+# Environment / secrets — never commit real values
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+dist/
+.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Laravel / PHP
+/vendor/
+/backend/vendor/
+/backend/.env
+/backend/storage/*.key
+/backend/public/storage
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Blockchain build artifacts
+artifacts/
+cache/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Stray solc output
+*_sol_*.bin
+*_sol_*.abi
