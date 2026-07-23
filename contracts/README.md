@@ -20,7 +20,8 @@ this is what the Blockchain Logs page / explorer link surfaces.
 | File | Remix plugin | What it does |
 |---|---|---|
 | `scripts/deploy_with_ethers.js` | Script runner (right-click → Run) | Deploys the contract and prints its address. |
-| `scripts/interact_with_ethers.js` | Script runner | Stores a demo receipt hash, reads it back, and verifies match vs. mismatch. |
+| `scripts/interact_with_ethers.js` | Script runner | Stores a receipt hash, reads it back, and verifies match vs. mismatch. |
+| `scripts/hash_receipt.js` | Script runner | Prints the canonical JSON, SHA-256 hex, and `bytes32` arg for a receipt — paste the result into `storeReceipt` by hand. |
 | `tests/ReturnedExpendableProperty_test.sol` | Solidity Unit Testing | Unit tests: store/verify, wrong-hash rejection, `getReceipt`, duplicate-store revert, empty-input revert. |
 
 The scripts use the ethers v5 API that Remix's script environment injects (`ethers.providers.Web3Provider`, `contract.deployed()`). The frontend app uses ethers v6 — that difference is expected; each targets its own runtime.

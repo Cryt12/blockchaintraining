@@ -7,18 +7,50 @@
  *   - Keep MetaMask on Sepolia with the authorized (deployer) account selected.
  *   - Right-click this file in Remix and choose "Run".
  *
- * The hash below is a demo SHA-256 digest. In the real app the frontend computes
- * it from the receipt's canonical JSON and passes it as a 0x-prefixed bytes32.
+ * The hash is computed here the same way the frontend computes it (canonical JSON
+ * + SHA-256), so a receipt anchored from this script verifies in the app.
+ * Keep this canonicalization in lockstep with frontend/src/lib/hash.js.
  */
+
+function canonicalize(value) {
+  if (value === null || typeof value !== 'object') {
+    return JSON.stringify(value);
+  }
+  if (Array.isArray(value)) {
+    return '[' + value.map(canonicalize).join(',') + ']';
+  }
+  const keys = Object.keys(value).sort();
+  return '{' + keys.map((k) => JSON.stringify(k) + ':' + canonicalize(value[k])).join(',') + '}';
+}
+
+async function sha256Hex(text) {
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 (async () => {
   try {
     const CONTRACT_ADDRESS = 'PASTE_DEPLOYED_ADDRESS_HERE';
     const contractName = 'ReturnedExpendableProperty';
 
-    const receiptNumber = 'RRP-2026-000001';
-    // 32-byte value (0x + 64 hex chars). Example only.
-    const sha256Hash =
-      '0x9f2c1a7b3e4d5c6f8a0b1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a';
+    const receipt = {
+      receipt_number: 'RRP-2026-000001',
+      employee: 'Maria Santos',
+      office: 'Human Resources',
+      return_date: '2026-07-20',
+      received_by: 'System Administrator',
+      purpose: 'End of assignment return',
+      remarks: '',
+      items: [
+        { item: 'Ballpoint Pen (Black)', quantity: 2, condition: 'good', remarks: '' },
+        { item: 'USB Flash Drive 32GB', quantity: 1, condition: 'serviceable', remarks: 'Minor scratch' },
+      ],
+    };
+
+    const receiptNumber = receipt.receipt_number;
+    const sha256Hash = '0x' + (await sha256Hex(canonicalize(receipt)));
+    console.log('Computed hash:', sha256Hash);
 
     const artifactsPath = `browser/contracts/artifacts/${contractName}.json`;
     const metadata = JSON.parse(
